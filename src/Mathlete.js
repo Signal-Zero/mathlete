@@ -12,13 +12,13 @@ export default {
     inverseLerp(start, end, value) {
         // find normalized value in one dimension relative to start and end
         // this.remap(start, end, 0, 1, value);
-        if (end === start) return end;
+        if (start === end) return 0;
         return (value - start) / (end - start);
     },
     remap(start1, end1, start2, end2, value) {
         // same as normalizing in the start2..end2 range, a value we want to denormalize in the start1..end1 range
         // same as lerp(start2, end2, inverseLerp(start1, end1, value))
-        if (end1 === start1) return end1;
+        if (start1 === end1) return 0;
         return start2 + (value - start1) / (end1 - start1) * (end2 - start2);
     },
     mLerp(start, end, percentage) {
@@ -88,12 +88,24 @@ export default {
         // yeilds N-1 length array of change between N values in array
         return this.mapBetweenEach(array, (a, b) => b - a);
     },
-    makeDistribution(array, buckets, min = Math.min(...array), max = Math.max(...array)) {
+    makeDistribution(values, bucketCount, min = Math.min(...values), max = Math.max(...values)) {
         // yeilds array of integers containing a count of normalized values in an array distributed across N buckets
-        const res = Array.from(new Array(buckets), () => 0);
-        array.forEach((v) => {
+        const res = new Array(parseInt(bucketCount, 10)).fill(0);
+        values.forEach((v) => {
             // the most important decision is to floor, round, or ceil here.
-            res[Math.floor(this.clamp(0, buckets - 1, this.remap(min, max, 0, buckets, v)))] += 1;
+            res[Math.floor(
+                this.clamp(
+                    0,
+                    bucketCount - 1,
+                    this.remap(
+                        min,
+                        max,
+                        0,
+                        bucketCount,
+                        v,
+                    ),
+                ),
+            )] += 1;
         });
         return res;
     },
@@ -117,5 +129,5 @@ export default {
         const sumValues = this.sum(values);
         if (sumValues === 0) return values;
         return this.amplify(values, 1 / sumValues);
-    },
+    }
 };

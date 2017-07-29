@@ -78,6 +78,7 @@ describe("Mathlete - math helper functions", () => {
             Mathlete.remap(0, 1, 0, 2, 3).should.equal(6);
             Mathlete.remap(-1, 0, 0, 2, 0.5).should.equal(3);
             Mathlete.remap(0, -1, 0, 2, 0.5).should.equal(-1);
+            Mathlete.remap(1, 1, 0, 5, 1).should.equal(0);
 
             // edge cases
             Mathlete.remap(0, 0, 0, 1, 3).should.equal(0, "handle division by zero");
@@ -290,6 +291,28 @@ describe("Mathlete - math helper functions", () => {
             Mathlete.sum([0]).should.equal(0);
             Mathlete.sum([]).should.equal(0);
             Mathlete.sum(["", 2, 3]).should.equal(5);
+        });
+    });
+
+    describe("makeDistribution", () => {
+        it("returns an array with the expected number of buckets", () => {
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 5], 5).should.have.lengthOf(5);
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 5], 2).should.deep.equal([3, 3]);
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 5], 5).should.deep.equal([1, 2, 0, 1, 2]);
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 10], 5).should.deep.equal([3, 1, 1, 0, 1]);
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 100], 5).should.deep.equal([5, 0, 0, 0, 1]);
+
+            Mathlete.makeDistribution([-6, -4, -4, 0, 2, 14], 5).should.deep.equal([3, 1, 1, 0, 1]);
+            Mathlete.makeDistribution([], 5).should.deep.equal([0, 0, 0, 0, 0]);
+            Mathlete.makeDistribution([1, 1, 1, 1, 1, 1], 5).should.deep.equal([6, 0, 0, 0, 0]);
+
+            // another test -- the sum of the bucket values should always equal the length of the input array
+            Mathlete.makeDistribution([0, 1, 1, 3, 4, 100], 5).reduce((sum, num) => sum + num, 0)
+                .should.equal(6);
+
+            Mathlete.makeDistribution(Array.from(new Array(100), (v, i) => i), 100).forEach((count) => {
+               count.should.equal(1);
+            });
         });
     });
 });
