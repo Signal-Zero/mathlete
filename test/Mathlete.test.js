@@ -231,6 +231,14 @@ describe("Mathlete - math helper functions", () => {
             Mathlete.lerpInArray([0, 1, 2, 3], -1).should.equal(0);
             Mathlete.lerpInArray([0, 1, 2, 3], 4).should.equal(3);
         });
+
+        it("handles empty arrays", () => {
+            (() => Mathlete.lerpInArray([], 1)).should.throw(TypeError);
+        });
+
+        it("throws if values is not an array", () => {
+            (() => Mathlete.lerpInArray(0, 1)).should.throw(TypeError);
+        });
     });
 
     describe("lerpedYForXClosestPoints", () => {

@@ -36,6 +36,9 @@ export default {
         }, []);
     },
     lerpInArray(values, value) {
+        if (!Array.isArray(values) || values.length === 0) {
+            throw new TypeError("Values must be a non-empty array");
+        }
         // interpolate between indicies of a discrete set as though it were continuous
         if (value <= 0) return values[0];
         if (value >= values.length - 1) return values[values.length - 1];
@@ -114,9 +117,9 @@ export default {
         return Math.abs(x2 - x1) * (y1 + y2) / 2;
     },
     // Don't test until `makeProportional` is used
-    amplify(values, coeficient) {
+    amplify(values, coefficient) {
         // multiply each value in an array by a scalar
-        return values.map(v => v * coeficient);
+        return values.map(v => v * coefficient);
     },
     normalizeArray(values) {
         // adjust a numeric array such that all values are 0..1
