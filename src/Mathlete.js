@@ -129,7 +129,7 @@ function floatToPercent(value) {
 function linearIntegral({ x: x1, y: y1 }, { x: x2, y: y2 }) {
     // get area under a line segment by taking the absolute difference of x1 and x2 times the midpoint of y1 and y2
     return Math.abs(x2 - x1) * (y1 + y2) / 2;
-};
+}
 
 function lerpBetweenPoints({ x: x1, y: y1 }, { x: x2, y: y2 }, percentage) {
     // travel along a line in multiple dimensions between start and end by a normalized amount
@@ -137,11 +137,11 @@ function lerpBetweenPoints({ x: x1, y: y1 }, { x: x2, y: y2 }, percentage) {
         x: core.lerp(x1, x2, percentage),
         y: core.lerp(y1, y2, percentage),
     };
-};
+}
 
-function getMedianBetweenPoint(point1, point2) { // could easily become part of Mathlete
+function midpoint(point1, point2) { // could easily become part of Mathlete
     return lerpBetweenPoints(point1, point2, 0.5);
-};
+}
 
 function lerpedYBetweenPoints(points, inputX) {
     // @TODO: split this into getSurroundingPair() and lerpBetweenPoints()
@@ -166,7 +166,7 @@ function lerpedYBetweenPoints(points, inputX) {
     const { x: x2, y: y2 } = sortedPoints[i];
     // then get a new value relative to y1..y2 as percentile was to x1..x2
     return remap(x1, x2, y1, y2, inputX);
-};
+}
 
 export default {
     lerp,
@@ -188,7 +188,7 @@ export default {
     Point: {
         lerpedYBetweenPoints,
         linearIntegral,
-        getMedianBetweenPoint,
+        midpoint,
         lerpBetweenPoints,
     },
 };

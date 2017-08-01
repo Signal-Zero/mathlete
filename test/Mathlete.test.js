@@ -323,4 +323,62 @@ describe("Mathlete - math helper functions", () => {
             });
         });
     });
+
+    describe("makeProportional", () => {
+        it("returns an array of numbers remapped to add up to 1", () => {
+            const values = [0, 1, 2];
+            Mathlete.sum(Mathlete.makeProportional(values)).should.equal(1);
+
+            const tolerance = 10 ** -12;
+            const values2 = [5, 600, 100, -5, 2];
+            Mathlete.sum(Mathlete.makeProportional(values2)).should.be.closeTo(1, tolerance);
+
+            // edgecase of no values
+            const values3 = [];
+            Mathlete.sum(Mathlete.makeProportional(values3)).should.equal(0);
+
+        });
+    });
+
+    describe("mapArrayIntegral", () => {
+        it("returns the first integral of a numeric array", () => {
+            Mathlete.mapArrayIntegral([1, 1, 1, 1])
+                .should.be.an("array")
+                .that.deep.equals([0, 1, 2, 3, 4]);
+
+            Mathlete.mapArrayIntegral([1, 0, 1, 1])
+                .should.be.an("array")
+                .that.deep.equals([0, 1, 1, 2, 3]);
+
+            Mathlete.mapArrayIntegral([1, 0, 1, 1, -4])
+                .should.be.an("array")
+                .that.deep.equals([0, 1, 1, 2, 3, -1]);
+        });
+
+        it("handles an empty array input", () => {
+            Mathlete.mapArrayIntegral([])
+                .should.be.an("array")
+                .that.deep.equals([0]);
+        });
+
+        it("handles a single input array", () => {
+            const value = Math.random();
+            Mathlete.mapArrayIntegral([value])
+                .should.be.an("array")
+                .that.deep.equals([0, value]);
+        });
+
+        it("returns all zeroes when input is all zeros", () => {
+            Mathlete.mapArrayIntegral(new Array(5).fill(0))
+            .should.be.an("array").with.lengthOf(6)
+            .that.deep.equals(new Array(6).fill(0));
+        });
+
+        it("returns linear growth by index when input is constant value", () => {
+            const fillValue = Math.random();
+            Mathlete.mapArrayIntegral(new Array(5).fill(fillValue))
+                .should.be.an("array").with.lengthOf(6)
+                .that.deep.equals(Array.from(new Array(6), (v, i) => fillValue * i));
+        });
+    });
 });
