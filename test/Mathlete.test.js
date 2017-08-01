@@ -319,9 +319,32 @@ describe("Mathlete - math helper functions", () => {
                 .should.equal(6);
 
             Mathlete.makeDistribution(Array.from(new Array(100), (v, i) => i), 100).forEach((count) => {
-               count.should.equal(1);
+                count.should.equal(1);
             });
         });
+
+        it("never returns negative counts", () => {
+            const garbage = [1, -10, Math.MAX_SAFE_INTEGER, Math.random(), 0, Infinity, NaN, undefined, null, false, "5", "not a number at all"];
+            Mathlete.makeDistribution(garbage, 100)
+            .forEach((count) => {
+                count.should.be.a("number").not.below(0).and.not.NaN;
+            });
+        });
+
+        it("throws an error if bucket count is not a positive integer", () => {
+            (() => Mathlete.makeDistribution([1, 2, 3])).should.throw(RangeError);
+            (() => Mathlete.makeDistribution([1, 2, 3], 0)).should.throw(RangeError);
+            (() => Mathlete.makeDistribution([1, 2, 3], Math.random())).should.throw(RangeError);
+            (() => Mathlete.makeDistribution([1, 2, 3], -Math.random())).should.throw(RangeError);
+        });
+
+        // it("assigns no bogus keys during creation", () => {
+        //     const garbage = [1, -10, Math.MAX_SAFE_INTEGER, Math.random(), 0, Infinity, NaN, undefined, null, false, "5", "not a number at all"];//
+        //     Object.values(Mathlete.makeDistribution(garbage, 100))
+        //         .forEach((count) => {
+        //             count.should.be.a('number').not.below(0).and.not.NaN;
+        //         });
+        // });
     });
 
     describe("makeProportional", () => {

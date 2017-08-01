@@ -32,8 +32,8 @@ function sum(values) {
 }
 
 function average(numbers) {
-    return Math.round(numbers.reduce((acc, score) =>
-        acc + score, 0) / numbers.length);
+    return Math.round(numbers.reduce((acc, num) =>
+        acc + num, 0) / numbers.length);
 }
 
 function mapBetweenEach(values, func) {
@@ -65,7 +65,7 @@ function percentile(values, value) {
 }
 
 function mapArrayIntegral(array) {
-    // yeilds N+1 length array of sums below N values in array
+    // yields N+1 length array of sums below N values in array
     const res = [0];
     let lead = 0;
     array.forEach((v, i) => {
@@ -76,13 +76,14 @@ function mapArrayIntegral(array) {
 }
 
 function mapArrayDerivative(array) {
-    // yeilds N-1 length array of change between N values in array
+    // yields N-1 length array of change between N values in array
     return mapBetweenEach(array, (a, b) => b - a);
 }
 
 function makeDistribution(values, bucketCount, min = Math.min(...values), max = Math.max(...values)) {
-    // yeilds array of integers containing a count of normalized values in an array distributed across N buckets
-    const res = new Array(parseInt(bucketCount, 10)).fill(0);
+    // yields array of integers containing a count of normalized values in an array distributed across N buckets
+    if (bucketCount < 1 || bucketCount % 1 !== 0) throw new RangeError('bucketCount must be a positive integer');
+    const res = new Array(bucketCount).fill(0);
     values.forEach((v) => {
         // the most important decision is to floor, round, or ceil here.
         res[Math.floor(
