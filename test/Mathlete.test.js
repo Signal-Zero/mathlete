@@ -85,39 +85,39 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
-    describe("linearIntegral", () => {
+    describe("Point.linearIntegral", () => {
         it("Integrates line segments between two points", () => {
             const tolerance = 10 ** -12; // good enough for most cases (12 decimal places)
 
-            Mathlete.linearIntegral({ x: 0, y: 0 }, { x: 1, y: 1 }).should.equal(0.5, "handles common case");
-            Mathlete.linearIntegral({ x: 0, y: 1 }, { x: 1, y: 1 }).should.equal(1, "handles no change in y");
-            Mathlete.linearIntegral({ x: 0, y: 0 }, { x: -1, y: 1 }).should.equal(0.5, "handles reversed x values");
-            Mathlete.linearIntegral({ x: 0, y: 0 }, { x: 1, y: -1 }).should.equal(-0.5, "handles reversed y values");
-            Mathlete.linearIntegral({ x: 0, y: 0 }, { x: -1, y: -1 }).should.equal(-0.5, "handles both axes reversed");
-            Mathlete.linearIntegral({ x: 1, y: 1 }, { x: 2, y: 2 }).should.equal(1.5, "handles non-zero starting x");
-            Mathlete.linearIntegral({ x: 0, y: 1 }, { x: 1, y: 2 }).should.equal(1.5, "handles non-zero starting y");
+            Mathlete.Point.linearIntegral({ x: 0, y: 0 }, { x: 1, y: 1 }).should.equal(0.5, "handles common case");
+            Mathlete.Point.linearIntegral({ x: 0, y: 1 }, { x: 1, y: 1 }).should.equal(1, "handles no change in y");
+            Mathlete.Point.linearIntegral({ x: 0, y: 0 }, { x: -1, y: 1 }).should.equal(0.5, "handles reversed x values");
+            Mathlete.Point.linearIntegral({ x: 0, y: 0 }, { x: 1, y: -1 }).should.equal(-0.5, "handles reversed y values");
+            Mathlete.Point.linearIntegral({ x: 0, y: 0 }, { x: -1, y: -1 }).should.equal(-0.5, "handles both axes reversed");
+            Mathlete.Point.linearIntegral({ x: 1, y: 1 }, { x: 2, y: 2 }).should.equal(1.5, "handles non-zero starting x");
+            Mathlete.Point.linearIntegral({ x: 0, y: 1 }, { x: 1, y: 2 }).should.equal(1.5, "handles non-zero starting y");
 
             // Edge Cases
-            Mathlete.linearIntegral({ x: 1, y: 1 }, { x: 1, y: 2 }).should.equal(0, "no change in x");
-            Mathlete.linearIntegral({ x: 0, y: 0 }, { x: 0, y: 0 }).should.equal(0, "no change in anything");
+            Mathlete.Point.linearIntegral({ x: 1, y: 1 }, { x: 1, y: 2 }).should.equal(0, "no change in x");
+            Mathlete.Point.linearIntegral({ x: 0, y: 0 }, { x: 0, y: 0 }).should.equal(0, "no change in anything");
 
             // Random Tests
             Array.from(new Array(10), () => null).forEach(() => {
                 const run = 100 - (Math.random() * 200);
                 const rise = 100 - (Math.random() * 200);
-                Mathlete.linearIntegral({ x: 0, y: rise }, { x: run, y: rise }).should.equal(Math.abs(run) * rise, "handles rectangles without precision loss");
+                Mathlete.Point.linearIntegral({ x: 0, y: rise }, { x: run, y: rise }).should.equal(Math.abs(run) * rise, "handles rectangles without precision loss");
             });
             Array.from(new Array(10), () => null).forEach(() => {
                 const initialX = 50 - (Math.random() * 100);
                 const run = 100 - (Math.random() * 200);
                 const rise = 100 - (Math.random() * 200);
-                Mathlete.linearIntegral({ x: initialX, y: 0 }, { x: initialX + run, y: rise }).should.be.closeTo((Math.abs(run) * rise) / 2, tolerance, "handles right triangles within tolerance");
+                Mathlete.Point.linearIntegral({ x: initialX, y: 0 }, { x: initialX + run, y: rise }).should.be.closeTo((Math.abs(run) * rise) / 2, tolerance, "handles right triangles within tolerance");
             });
             Array.from(new Array(10), () => null).forEach(() => {
                 const initialX = 50 - (Math.random() * 100);
                 const run = 100 - (Math.random() * 200);
                 const rise = 100 - (Math.random() * 200);
-                Mathlete.linearIntegral({ x: initialX, y: rise }, { x: initialX + run, y: -rise }).should.equal(0, "handles y median of 0 without precision loss");
+                Mathlete.Point.linearIntegral({ x: initialX, y: rise }, { x: initialX + run, y: -rise }).should.equal(0, "handles y median of 0 without precision loss");
             });
 
             // Undefined args
@@ -128,7 +128,7 @@ describe("Mathlete - math helper functions", () => {
                 [{ x: 0, y: 0 }, { x: 0 }],
             ].forEach((pair) => {
                 // TODO: throw TypeError or set defaults
-                Mathlete.linearIntegral(...pair).should.be.NaN;
+                Mathlete.Point.linearIntegral(...pair).should.be.NaN;
             });
         });
     });
@@ -191,7 +191,7 @@ describe("Mathlete - math helper functions", () => {
 
             Mathlete.mapBetweenEach(
                 Array.from(new Array(10), (v, i) => i),
-                (a, b, i) => Mathlete.linearIntegral({ x: i, y: a }, { x: i + 1, y: b }),
+                (a, b, i) => Mathlete.Point.linearIntegral({ x: i, y: a }, { x: i + 1, y: b }),
             ).should.be.an("array").with.lengthOf(9).that.deep.equals(
                 Array.from(new Array(9), (v, i) => i + 0.5),
                 "linear integrals, linear growth",
@@ -250,7 +250,7 @@ describe("Mathlete - math helper functions", () => {
             x values between two points return y value lerped between first match
 
              */
-            Mathlete.lerpedYForXClosestPoints([
+            Mathlete.Point.lerpedYBetweenPoints([
                 { x: 0, y: 1 },
                 { x: 30, y: 2 },
                 { x: 50, y: 5 },
@@ -258,7 +258,7 @@ describe("Mathlete - math helper functions", () => {
                 { x: 99, y: 9.9 },
             ], 50).should.equal(5);
 
-            Mathlete.lerpedYForXClosestPoints([
+            Mathlete.Point.lerpedYBetweenPoints([
                 { x: 10, y: 1 },
                 { x: 30, y: 2 },
                 { x: 50, y: 5 },
@@ -266,7 +266,7 @@ describe("Mathlete - math helper functions", () => {
                 { x: 99, y: 9.9 },
             ], 0).should.equal(1);
 
-            Mathlete.lerpedYForXClosestPoints([
+            Mathlete.Point.lerpedYBetweenPoints([
                 { x: 10, y: 1 },
                 { x: 30, y: 2 },
                 { x: 50, y: 5 },
@@ -274,7 +274,7 @@ describe("Mathlete - math helper functions", () => {
                 { x: 99, y: 9.9 },
             ], 100).should.equal(9.9);
 
-            Mathlete.lerpedYForXClosestPoints([
+            Mathlete.Point.lerpedYBetweenPoints([
                 { x: 10, y: 1 },
                 { x: 30, y: 5 },
                 { x: 30, y: 2 },
@@ -282,7 +282,7 @@ describe("Mathlete - math helper functions", () => {
                 { x: 99, y: 9.9 },
             ], 30).should.equal(2);
 
-            Mathlete.lerpedYForXClosestPoints([
+            Mathlete.Point.lerpedYBetweenPoints([
                 { x: 0, y: 1 },
                 { x: 30, y: 2 },
                 { x: 50, y: 5 },
