@@ -134,8 +134,8 @@ function linearIntegral({ x: x1, y: y1 }, { x: x2, y: y2 }) {
 function lerpBetweenPoints({ x: x1, y: y1 }, { x: x2, y: y2 }, percentage) {
     // travel along a line in multiple dimensions between start and end by a normalized amount
     return {
-        x: core.lerp(x1, x2, percentage),
-        y: core.lerp(y1, y2, percentage),
+        x: lerp(x1, x2, percentage),
+        y: lerp(y1, y2, percentage),
     };
 }
 
