@@ -1,8 +1,16 @@
 {
   "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "expect": true
+  },
   "rules": {
     "max-len": ["warn", 200],
     "no-mixed-operators": 0,
+    "no-plusplus": 0,
     "indent": ["error", 4, { "SwitchCase": 1 }],
     "quotes": ["error", "double"]
   }
