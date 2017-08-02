@@ -2,6 +2,7 @@ import chai from "chai";
 import Mathlete from "../src/Mathlete";
 
 chai.should();
+const expect = chai.expect;
 
 describe("Mathlete - math helper functions", () => {
     describe("clamp", () => {
@@ -241,7 +242,7 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
-    describe("lerpedYForXClosestPoints", () => {
+    describe("lerpedYBetweenPoints", () => {
         it("returns a Y value lerped between the two nearest x points", () => {
             /*
             x values less than lowest x value return y for lowest x
@@ -268,14 +269,6 @@ describe("Mathlete - math helper functions", () => {
 
             Mathlete.Point.lerpedYBetweenPoints([
                 { x: 10, y: 1 },
-                { x: 30, y: 2 },
-                { x: 50, y: 5 },
-                { x: 80, y: 7 },
-                { x: 99, y: 9.9 },
-            ], 100).should.equal(9.9);
-
-            Mathlete.Point.lerpedYBetweenPoints([
-                { x: 10, y: 1 },
                 { x: 30, y: 5 },
                 { x: 30, y: 2 },
                 { x: 80, y: 7 },
@@ -289,6 +282,34 @@ describe("Mathlete - math helper functions", () => {
                 { x: 80, y: 7 },
                 { x: 99, y: 9.9 },
             ], 90).should.equal(8.526315789473685);
+        });
+
+        it("handles an empty set of points", () => {
+            expect(Mathlete.Point.lerpedYBetweenPoints([], 10)).to.be.undefined;
+        });
+
+        it("handles a single point by returning its Y", () => {
+            expect(Mathlete.Point.lerpedYBetweenPoints([{ x: 0, y: 1}], 10)).to.equal(1);
+        });
+
+        it("handles X values before the first X value by returning Y for first X", () => {
+            Mathlete.Point.lerpedYBetweenPoints([
+                { x: 10, y: 1 },
+                { x: 30, y: 2 },
+                { x: 50, y: 5 },
+                { x: 80, y: 7 },
+                { x: 90, y: 9.9 },
+            ], -100).should.equal(1);
+        });
+
+        it("handles X values past the farthest X value by returning Y for farthest X", () => {
+            Mathlete.Point.lerpedYBetweenPoints([
+                { x: 10, y: 1 },
+                { x: 30, y: 2 },
+                { x: 50, y: 5 },
+                { x: 80, y: 7 },
+                { x: 90, y: 9.9 },
+            ], 100).should.equal(9.9);
         });
     });
 

@@ -145,9 +145,15 @@ function midpoint(point1, point2) { // could easily become part of Mathlete
 }
 
 function lerpedYBetweenPoints(points, inputX) {
-    // @TODO: split this into getSurroundingPair() and lerpBetweenPoints()
+    // @TODO: split this into getSurroundingPair()
     // returns a function from input points that can do below
     // sort by x first, then y lowest to highest
+    if (!points.length) {
+        // Cannot find lerpedY between non existent points
+        // TODO: should eventually throw an error
+        return undefined;
+    }
+
     const sortedPoints = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
     // takes an array of points [{ x, y }...] sorted by x value...
     // ...and a given x value to search for...
