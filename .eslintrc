@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "max-len": ["warn", 200],
+    "no-mixed-operators": 0,
+    "indent": ["error", 4, { "SwitchCase": 1 }],
+    "quotes": ["error", "double"]
+  }
+}
