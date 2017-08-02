@@ -392,8 +392,8 @@ describe("Mathlete - math helper functions", () => {
 
         it("returns all zeroes when input is all zeros", () => {
             Mathlete.mapArrayIntegral(new Array(5).fill(0))
-            .should.be.an("array").with.lengthOf(6)
-            .that.deep.equals(new Array(6).fill(0));
+                .should.be.an("array").with.lengthOf(6)
+                .that.deep.equals(new Array(6).fill(0));
         });
 
         it("returns linear growth by index when input is constant value", () => {
@@ -411,24 +411,59 @@ describe("Mathlete - math helper functions", () => {
             .that.equals(0);
 
             Mathlete.Point.sumIntegralsBetweenPoints([{ x: 10, y: 10 }])
-            .should.be.a("number")
-            .that.equals(0);
+                .should.be.a("number")
+                .that.equals(0);
         });
 
         it("returns correct integral for a pair of points", () => {
             const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }];
 
             Mathlete.Point.sumIntegralsBetweenPoints(points)
-            .should.equal(50)
-            .and.equal(Mathlete.Point.linearIntegral(...points));
+                .should.equal(50)
+                .and.equal(Mathlete.Point.linearIntegral(...points));
         });
 
         it("returns correct integral for several points", () => {
-            // TODO: finsih testing this
-            const points = [{ x: 0, y: 0 }, { x: 5, y: 5 }, { x: 10, y: 10 }];
+            const points = [{ x: 0, y: 0 }, { x: 5, y: 10 }, { x: 10, y: 10 }];
 
             Mathlete.Point.sumIntegralsBetweenPoints(points)
-            .should.equal(50);
+                .should.equal(75);
+        });
+
+        it("handles negative integrals as subtracting from sum (natural)", () => {
+            const points = [{ x: 0, y: 0 }, { x: 5, y: -10 }, { x: 10, y: 10 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+                .should.equal(-25);
+        });
+
+        it("handles negative x-values the same as positive ones", () => {
+            const points = [{ x: -10, y: 0 }, { x: 0, y: 10 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+                .should.equal(50);
+        });
+
+        it("handles points with same x as zero for pair", () => {
+            const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 10, y: 20 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+                .should.equal(50);
+
+            points.push({ x: 20, y: 20 });
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+                .should.equal(250);
+        });
+
+        it("handles unsorted points as simple pairs", () => {
+            const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 20 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+                .should.equal(200);
+        });
+    });
+
         });
     });
 });
