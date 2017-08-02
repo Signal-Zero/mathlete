@@ -323,6 +323,16 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
+    describe("average", () => {
+        it("returns a mean from a number array", () => {
+            (() => Mathlete.average([])).should.throw(RangeError);
+            Mathlete.average([0]).should.equal(0);
+            Mathlete.average([1]).should.equal(1);
+            Mathlete.average([1, 2, 3]).should.equal(2);
+            Mathlete.average([-5, 0, 5]).should.equal(0);
+        });
+    });
+
     describe("makeDistribution", () => {
         it("returns an array with the expected number of buckets", () => {
             Mathlete.makeDistribution([0, 1, 1, 3, 4, 5], 5).should.have.lengthOf(5);

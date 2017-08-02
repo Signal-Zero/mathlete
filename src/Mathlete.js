@@ -32,6 +32,10 @@ function sum(values) {
 }
 
 function average(numbers) {
+    if (numbers.length === 0) {
+        throw new RangeError("numbers should be a non-empty array");
+    }
+
     return Math.round(numbers.reduce((acc, num) =>
         acc + num, 0) / numbers.length);
 }
