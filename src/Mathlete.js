@@ -123,7 +123,7 @@ function makeProportional(values) {
     return amplify(values, 1 / sumValues);
 }
 
-function floatToPercent(value) {
+function decimalToPercent(value) {
     return value * 100;
 }
 
@@ -189,7 +189,7 @@ export default {
     amplify,
     normalizeArray,
     makeProportional,
-    floatToPercent,
+    decimalToPercent,
     Point: {
         lerpedYBetweenPoints,
         linearIntegral,

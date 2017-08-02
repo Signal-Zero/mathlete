@@ -464,13 +464,13 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
-    describe("floatToPercent", () => {
+    describe("decimalToPercent", () => {
         it("turns a float into a number percent", () => {
-            Mathlete.floatToPercent(0.5).should.equal(50);
-            Mathlete.floatToPercent(0.45).should.equal(45);
-            Mathlete.floatToPercent(0.4567).should.equal(45.67);
-            Mathlete.floatToPercent(-2).should.equal(-200);
-            Mathlete.floatToPercent(0).should.equal(0);
+            Mathlete.decimalToPercent(0.5).should.equal(50);
+            Mathlete.decimalToPercent(0.45).should.equal(45);
+            Mathlete.decimalToPercent(0.4567).should.equal(45.67);
+            Mathlete.decimalToPercent(-2).should.equal(-200);
+            Mathlete.decimalToPercent(0).should.equal(0);
         });
     });
 });
