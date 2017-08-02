@@ -68,7 +68,7 @@ function mapArrayIntegral(array) {
     // yields N+1 length array of sums below N values in array
     const res = [0];
     let lead = 0;
-    array.forEach((v, i) => {
+    array.forEach((v) => {
         lead += v;
         res.push(lead);
     });
@@ -82,7 +82,7 @@ function mapArrayDerivative(array) {
 
 function makeDistribution(values, bucketCount, min = Math.min(...values), max = Math.max(...values)) {
     // yields array of integers containing a count of normalized values in an array distributed across N buckets
-    if (bucketCount < 1 || bucketCount % 1 !== 0) throw new RangeError('bucketCount must be a positive integer');
+    if (bucketCount < 1 || bucketCount % 1 !== 0) throw new RangeError("bucketCount must be a positive integer");
     const res = new Array(bucketCount).fill(0);
     values.forEach((v) => {
         // the most important decision is to floor, round, or ceil here.
@@ -169,6 +169,10 @@ function lerpedYBetweenPoints(points, inputX) {
     return remap(x1, x2, y1, y2, inputX);
 }
 
+function sumIntegralsBetweenPoints(points) {
+    return sum(mapBetweenEach(points, linearIntegral));
+}
+
 export default {
     lerp,
     clamp,
@@ -191,5 +195,6 @@ export default {
         linearIntegral,
         midpoint,
         lerpBetweenPoints,
+        sumIntegralsBetweenPoints,
     },
 };

@@ -359,7 +359,6 @@ describe("Mathlete - math helper functions", () => {
             // edgecase of no values
             const values3 = [];
             Mathlete.sum(Mathlete.makeProportional(values3)).should.equal(0);
-
         });
     });
 
@@ -402,6 +401,34 @@ describe("Mathlete - math helper functions", () => {
             Mathlete.mapArrayIntegral(new Array(5).fill(fillValue))
                 .should.be.an("array").with.lengthOf(6)
                 .that.deep.equals(Array.from(new Array(6), (v, i) => fillValue * i));
+        });
+    });
+
+    describe("sumIntegralsBetweenPoints", () => {
+        it("returns 0 if the array has fewer than two points", () => {
+            Mathlete.Point.sumIntegralsBetweenPoints([])
+            .should.be.a("number")
+            .that.equals(0);
+
+            Mathlete.Point.sumIntegralsBetweenPoints([{ x: 10, y: 10 }])
+            .should.be.a("number")
+            .that.equals(0);
+        });
+
+        it("returns correct integral for a pair of points", () => {
+            const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+            .should.equal(50)
+            .and.equal(Mathlete.Point.linearIntegral(...points));
+        });
+
+        it("returns correct integral for several points", () => {
+            // TODO: finsih testing this
+            const points = [{ x: 0, y: 0 }, { x: 5, y: 5 }, { x: 10, y: 10 }];
+
+            Mathlete.Point.sumIntegralsBetweenPoints(points)
+            .should.equal(50);
         });
     });
 });
