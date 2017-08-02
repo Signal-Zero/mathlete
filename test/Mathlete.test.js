@@ -86,6 +86,36 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
+    describe("Point.lerpBetweenPoints", () => {
+        it("returns a point along the line between two points given percentage", () => {
+            const lerpBetweenPoints = Mathlete.Point.lerpBetweenPoints;
+
+            const origin = { x: 0, y: 0 };
+            const oneOne = { x: 1, y: 1 };
+
+            lerpBetweenPoints(origin, origin, 0)
+                .should.deep.equal(origin);
+
+            lerpBetweenPoints(origin, origin, 0.5)
+                .should.deep.equal(origin);
+
+            lerpBetweenPoints(origin, oneOne, 0.5)
+                .should.deep.equal({ x: 0.5, y: 0.5 });
+
+            lerpBetweenPoints(origin, oneOne, 1)
+                .should.deep.equal(oneOne);
+
+            lerpBetweenPoints(origin, oneOne, 2)
+                .should.deep.equal({ x: 2, y: 2 });
+
+            lerpBetweenPoints(origin, { x: -1, y: -1 }, 1)
+                .should.deep.equal({ x: -1, y: -1 });
+
+            lerpBetweenPoints(origin, { x: 2, y: 2 }, -1)
+                .should.deep.equal({ x: -2, y: -2 });
+        });
+    });
+
     describe("Point.linearIntegral", () => {
         it("Integrates line segments between two points", () => {
             const tolerance = 10 ** -12; // good enough for most cases (12 decimal places)
@@ -289,7 +319,7 @@ describe("Mathlete - math helper functions", () => {
         });
 
         it("handles a single point by returning its Y", () => {
-            expect(Mathlete.Point.lerpedYBetweenPoints([{ x: 0, y: 1}], 10)).to.equal(1);
+            expect(Mathlete.Point.lerpedYBetweenPoints([{ x: 0, y: 1 }], 10)).to.equal(1);
         });
 
         it("handles X values before the first X value by returning Y for first X", () => {
