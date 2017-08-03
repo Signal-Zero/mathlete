@@ -1,6 +1,6 @@
 {
   "name": "mathlete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Math helper functions",
   "main": "lib/Mathlete.js",
   "directories": {
