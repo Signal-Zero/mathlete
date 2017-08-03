@@ -107,7 +107,6 @@ function makeDistribution(values, bucketCount, min = Math.min(...values), max = 
     return res;
 }
 
-// Don't test until `makeProportional` is used
 function amplify(values, coefficient) {
     // multiply each value in an array by a scalar
     return values.map(v => v * coefficient);
@@ -115,8 +114,14 @@ function amplify(values, coefficient) {
 
 function normalizeArray(values) {
     // adjust a numeric array such that all values are 0..1
+
+    if (values.length === 1) {
+        return [1];
+    }
+
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
+
     return values.map(v => inverseLerp(minValue, maxValue, v));
 }
 

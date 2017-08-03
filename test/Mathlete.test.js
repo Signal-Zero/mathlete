@@ -432,6 +432,32 @@ describe("Mathlete - math helper functions", () => {
         // });
     });
 
+    describe("normalizeArray", () => {
+        it("returns a normalized array", () => {
+            Mathlete.normalizeArray([])
+                .should.deep.equal([]);
+
+            Mathlete.normalizeArray([0])
+                .should.deep.equal([1]);
+
+            Mathlete.normalizeArray([1])
+                .should.deep.equal([1]);
+
+            Mathlete.normalizeArray([0.5])
+                .should.deep.equal([1]);
+
+            Mathlete.normalizeArray([50])
+                .should.deep.equal([1]);
+
+
+            Mathlete.normalizeArray([0, 50, 100])
+                .should.deep.equal([0, 0.5, 1]);
+
+            Mathlete.normalizeArray([0, -50, -100])
+                .should.deep.equal([1, 0.5, 0]);
+        });
+    });
+
     describe("makeProportional", () => {
         it("returns an array of numbers remapped to add up to 1", () => {
             const values = [0, 1, 2];
