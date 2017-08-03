@@ -1,14 +1,16 @@
-/* Mathlete math library - Helper functions for common math operations */
+/*
+ * Mathlete math library
+ * Helper functions for common math operations
+ *
+ */
 
 /** travel along a line in one dimension between start and end by a normalized amount */
 function lerp(start, end, percentage = 0.5) {
-
     return start + percentage * (end - start);
 }
 
 /** returns nearest value to v no less than min, no more than max (inclusive) */
 function clamp(boundary1, boundary2, v) {
-
     const min = Math.min(boundary1, boundary2);
     const max = Math.max(boundary1, boundary2);
     return Math.min(Math.max(min, v), max);
@@ -30,7 +32,6 @@ function remap(start1, end1, start2, end2, value) {
 
 /** sum numeric array */
 function sum(values) {
-
     return values.reduce((acc, v) => acc + Number(v || 0), 0);
 }
 
@@ -75,7 +76,6 @@ function percentile(values, value) {
 
 /** yields N+1 length array of sums below N values in array */
 function mapArrayIntegral(array) {
-
     const res = [0];
     let lead = 0;
     array.forEach((v) => {
@@ -87,13 +87,11 @@ function mapArrayIntegral(array) {
 
 /** yields N-1 length array of change between N values in array */
 function mapArrayDerivative(array) {
-
     return mapBetweenEach(array, (a, b) => b - a);
 }
 
 /** yields array of integers containing a count of normalized values in an array distributed across N buckets */
 function makeDistribution(values, bucketCount, min = Math.min(...values), max = Math.max(...values)) {
-
     if (bucketCount < 1 || bucketCount % 1 !== 0) throw new RangeError("bucketCount must be a positive integer");
     const res = new Array(bucketCount).fill(0);
     values.forEach((v) => {
@@ -117,14 +115,11 @@ function makeDistribution(values, bucketCount, min = Math.min(...values), max = 
 
 /** multiply each value in an array by a scalar */
 function amplify(values, coefficient) {
-
     return values.map(v => v * coefficient);
 }
 
 /** adjust a numeric array such that all values are 0..1 */
 function normalizeArray(values) {
-
-
     if (values.length === 1) {
         return [1];
     }
@@ -137,7 +132,6 @@ function normalizeArray(values) {
 
 /** adjust a numeric array such that the sum of its values are 1 */
 function makeProportional(values) {
-
     const sumValues = sum(values);
     if (sumValues === 0) return values;
     return amplify(values, 1 / sumValues);
@@ -149,13 +143,11 @@ function decimalToPercent(value) {
 
 /** get area under a line segment by taking the absolute difference of x1 and x2 times the midpoint of y1 and y2 */
 function linearIntegral({ x: x1, y: y1 }, { x: x2, y: y2 }) {
-
     return Math.abs(x2 - x1) * (y1 + y2) / 2;
 }
 
 /** travel along a line in multiple dimensions between start and end by a normalized amount */
 function lerpBetweenPoints({ x: x1, y: y1 }, { x: x2, y: y2 }, percentage) {
-
     return {
         x: lerp(x1, x2, percentage),
         y: lerp(y1, y2, percentage),
