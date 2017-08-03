@@ -116,6 +116,30 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
+
+    describe("Point.midpoint", () => {
+        it("returns a mid-point along the line between two points", () => {
+            const midpoint = Mathlete.Point.midpoint;
+
+            const origin = { x: 0, y: 0 };
+            const oneOne = { x: 1, y: 1 };
+
+            midpoint(origin, origin)
+                .should.deep.equal(origin);
+
+            midpoint(origin, oneOne)
+                .should.deep.equal({x: 0.5, y: 0.5});
+
+            // floating point precision
+            midpoint({x: 0.1, y: 0.1}, {x: 0.3, y: 0.3})
+                .should.deep.equal({x: 0.2, y: 0.2});
+
+            midpoint(origin, {x: -2, y: -2})
+                .should.deep.equal({x: -1, y: -1});
+        });
+    });
+
+
     describe("Point.linearIntegral", () => {
         it("Integrates line segments between two points", () => {
             const tolerance = 10 ** -12; // good enough for most cases (12 decimal places)
