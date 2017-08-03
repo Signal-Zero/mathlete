@@ -63,8 +63,8 @@ function lerpInArray(values, value) {
     return lerp(values[j], values[j + 1], value - j);
 }
 
+/** gets the ratio of values lower to values higher, ignoring exact matches. */
 function percentile(values, value) {
-    // gets the ratio of values lower to values higher, ignoring exact matches.
     for (let i = 0, countLower = 0, countHigher = values.length; i < values.length; i++) {
         if (values[i] < value) countLower++;
         if (values[i] > value) return countLower / (countLower + countHigher);
