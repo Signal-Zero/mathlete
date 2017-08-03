@@ -387,6 +387,28 @@ describe("Mathlete - math helper functions", () => {
         });
     });
 
+    describe("mapArrayDerivative", () => {
+        it("returns an array of derivatives", () => {
+            Mathlete.mapArrayDerivative([])
+            .should.deep.equal([]);
+
+            Mathlete.mapArrayDerivative([0])
+            .should.deep.equal([]);
+
+            Mathlete.mapArrayDerivative([1, 1])
+            .should.deep.equal([0]);
+
+            Mathlete.mapArrayDerivative([0, 0, 0])
+            .should.deep.equal([0, 0]);
+
+            Mathlete.mapArrayDerivative([1,2,3])
+            .should.deep.equal([1, 1]);
+
+            Mathlete.mapArrayDerivative([-1, -2, -3])
+            .should.deep.equal([-1, -1]);
+        });
+    });
+    
     describe("makeDistribution", () => {
         it("returns an array with the expected number of buckets", () => {
             Mathlete.makeDistribution([0, 1, 1, 3, 4, 5], 5).should.have.lengthOf(5);
